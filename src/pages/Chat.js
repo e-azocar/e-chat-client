@@ -1,4 +1,4 @@
-import { useState } from "react";
+import { useState, useContext, useEffect } from "react";
 import { FiSend } from "react-icons/fi";
 import {
   ChatContainer,
@@ -12,12 +12,19 @@ import Header from "../components/Chat/Header";
 import Message from "../components/Chat/Message";
 import { io } from "socket.io-client";
 import { SERVER_URL } from "../config";
+import { AuthContext } from "../context/authContext";
 
 const socket = io(SERVER_URL);
 
 const Chat = () => {
   const [userMessage, setUserMessage] = useState("");
-  const [messages, setMessages] = useState([{ text: "Hello" }]);
+  const [messages, setMessages] = useState([]);
+
+  const { user } = useContext(AuthContext);
+
+  useEffect(() => {
+    console.log(user);
+  }, [user]);
 
   socket.on("message:new", (data) => {
     setMessages([...messages, data]);
@@ -25,7 +32,7 @@ const Chat = () => {
 
   const sendMessage = (e) => {
     e.preventDefault();
-    socket.emit("message:new", { text: userMessage, user: "admin" });
+    socket.emit("message:new", { text: userMessage, from: user.id });
     setUserMessage("");
   };
 
@@ -36,7 +43,7 @@ const Chat = () => {
       <Header />
       <ChatMessagesContainer>
         {messages.map((msg, i) => (
-          <Message text={msg.text} key={i} toMe={i % 2 === 0} />
+          <Message text={msg.text} key={i} fromMe={msg.from === user.id} />
         ))}
       </ChatMessagesContainer>
 

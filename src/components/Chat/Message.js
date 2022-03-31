@@ -1,10 +1,10 @@
 import React from "react";
 import { MessageBody, MessageContainer } from "./Message.styled";
 
-const Message = ({ text = "", toMe = true }) => {
+const Message = ({ text = "", fromMe = false }) => {
   return (
-    <MessageContainer toMe={toMe}>
-      <MessageBody toMe={toMe}>{text}</MessageBody>
+    <MessageContainer fromMe={fromMe}>
+      <MessageBody fromMe={fromMe}>{text}</MessageBody>
     </MessageContainer>
   );
 };

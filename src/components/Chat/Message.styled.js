@@ -5,7 +5,7 @@ export const MessageContainer = styled.div`
   height: auto;
   display: flex;
   margin: 0.5rem 0;
-  justify-content: ${({ toMe }) => (toMe ? "flex-start" : "flex-end")};
+  justify-content: ${({ fromMe }) => (fromMe ? "flex-end" : "flex-start")};
 `;
 
 export const MessageBody = styled.div`
@@ -13,7 +13,7 @@ export const MessageBody = styled.div`
   width: fit-content;
   max-width: 60%;
   border-radius: 1rem;
-  background: ${({ toMe }) => (toMe ? "#262626" : "#466869")};
+  background: ${({ fromMe }) => (fromMe ? "#466869" : "#262626")};
   color: #fff;
   padding: 0.8rem;
 `;
